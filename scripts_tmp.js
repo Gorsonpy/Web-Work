@@ -42,8 +42,9 @@
             .forEach((task, index) => {
                 const taskItem = document.createElement('li');
                 taskItem.className = `${task.completed ? 'completed' : ''} ${task.priority}`;
+                taskItem.draggable = true; // 使任务项可拖动
+                taskItem.dataset.index = index; // 保存任务索引
                 
-                // 确保tags是一个有效的数组
                 const tags = task.tags ? task.tags : [];
     
                 taskItem.innerHTML = `
@@ -62,28 +63,81 @@
                 `;
                 
                 taskList.appendChild(taskItem);
-    
-                // 检查任务截止日期并发送通知
-                const deadline = new Date(task.deadline);
-                const timeDifference = deadline - now;
-                const oneDay = 24 * 60 * 60 * 1000; // 一天
-    
-                if (timeDifference > 0 && timeDifference <= oneDay && !task.notified) {
-                    if (Notification.permission === 'granted') {
-                        const notification = new Notification('任务提醒', {
-                            body: `任务"${task.title}"即将到期，截止日期为${task.deadline}`
-                        });
-                        notification.onclick = () => {
-                            window.focus();
-                        };
-                    }
-                    task.notified = true;
-                    saveTasks();
-                }
             });
+    
+        initDragAndDrop(); // 初始化拖拽排序功能
+    }
+    function initDragAndDrop() {
+        let draggingEl;
+    
+        taskList.addEventListener('dragstart', (e) => {
+            draggingEl = e.target;
+            e.target.classList.add('dragging');
+        });
+    
+        taskList.addEventListener('dragend', (e) => {
+            e.target.classList.remove('dragging');
+            
+            const draggable = document.querySelector('.dragging');
+            const afterElement = getDragAfterElement(taskList, e.clientY);
+            
+            if (afterElement == null) {
+                taskList.appendChild(draggable);
+            } else {
+                taskList.insertBefore(draggable, afterElement);
+            }
+            
+            // 获取新位置
+            const newIndex = [...taskList.children].indexOf(draggable);
+            const oldIndex = parseInt(draggingEl.dataset.index, 10);
+            
+            // 更新tasks数组
+            if (newIndex >= 0 && newIndex < tasks.length) {
+                const [movedTask] = tasks.splice(oldIndex, 1);
+                tasks.splice(newIndex, 0, movedTask);
+            }
+            
+            // 更新索引值
+            updateTaskIndices();
+            
+            saveTasks();
+            loadTasks();
+        });
+    
+        taskList.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(taskList, e.clientY);
+            const draggable = document.querySelector('.dragging');
+            if (afterElement == null) {
+                taskList.appendChild(draggable);
+            } else {
+                taskList.insertBefore(draggable, afterElement);
+            }
+        });
     }
     
-
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('li:not(.dragging)')];
+    
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+    
+    // 更新任务的索引
+    function updateTaskIndices() {
+        const taskItems = taskList.children;
+        for (let i = 0; i < taskItems.length; i++) {
+            taskItems[i].dataset.index = i;
+        }
+    }
+    
     // 保存任务到本地存储
     function saveTasks() {
         localStorage.setItem('tasks', JSON.stringify(tasks));
