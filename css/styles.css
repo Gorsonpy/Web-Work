@@ -1,0 +1,340 @@
+/* 重置基本样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 定义CSS变量 */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #0056b3;
+    --background-color: #f8f9fa;
+    --text-color: #343a40;
+    --white-color: #fff;
+    --border-color: #dee2e6;
+    --font-family: 'Arial', sans-serif;
+    --font-size-base: 16px;
+    --font-size-large: 2em;
+    --font-size-medium: 1.5em;
+    --font-size-small: 0.875em;
+    --padding-base: 10px;
+    --padding-large: 20px;
+    --padding-small: 5px;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --error-color: #dc3545;
+}
+
+/* 页面基本样式 */
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: var(--font-size-base);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 头部样式 */
+header {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: var(--padding-large) 0;
+    text-align: center;
+    margin-bottom: var(--padding-large);
+}
+
+header h1 {
+    font-size: var(--font-size-large);
+    margin: 0;
+}
+
+section h2 {
+    margin-bottom: var(--padding-base);
+    font-size: var(--font-size-medium);
+    color: var(--primary-color);
+}
+
+/* 主体部分样式 */
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: var(--padding-large);
+    gap: var(--padding-large);
+    max-width: 1400px; /* 增加最大宽度 */
+    margin: 0 auto; /* 居中对齐 */
+}
+
+/* 各个部分样式 */
+section {
+    background: var(--white-color);
+    padding: var(--padding-large);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    width: 100%;
+    max-width: 600px; /* 增加最大宽度 */
+    box-sizing: border-box;
+}
+
+/* 响应式设计 */
+@media (max-width: 800px) {
+    main {
+        flex-direction: column;
+        padding: var(--padding-base);
+    }
+    
+    section {
+        max-width: 100%;
+    }
+}
+
+/* 表单样式 */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: var(--padding-base);
+    position: relative;
+}
+
+label {
+    margin-bottom: var(--padding-small);
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+input, textarea {
+    padding: var(--padding-base);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    width: 100%;
+    font-size: var(--font-size-base);
+}
+
+small.error-message {
+    color: var(--error-color);
+    font-size: var(--font-size-small);
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+}
+
+.error input,
+.error textarea {
+    border-color: var(--error-color);
+}
+
+.error small.error-message {
+    visibility: visible;
+    opacity: 1;
+}
+
+button {
+    padding: var(--padding-base);
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* 任务列表样式 */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: var(--white-color);
+    margin-bottom: var(--padding-base);
+    padding: var(--padding-large);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--box-shadow);
+    transition: box-shadow 0.3s ease;
+}
+
+li:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+li.completed {
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+li .actions {
+    display: flex;
+    gap: var(--padding-small);
+}
+
+.actions button {
+    padding: var(--padding-small) var(--padding-base);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-small);
+    transition: opacity 0.3s ease;
+}
+
+.actions .edit {
+    background-color: transparent;
+    color: #17a2b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actions .edit i {
+    font-size: 1.2em;
+}
+
+.actions .delete {
+    background-color: transparent;
+    color: #dc3545;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actions .delete i {
+    font-size: 1.2em;
+}
+
+.actions .toggle-status {
+    background-color: transparent;
+    color: #28a745;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actions .toggle-status i {
+    font-size: 1.2em;
+}
+
+.actions button:hover {
+    opacity: 0.8;
+}
+
+
+#task-filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--padding-base);
+}
+
+#search-input {
+    width: 59%;
+    padding: var(--padding-base);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+}
+
+#status-filter {
+    width: 40%;
+    padding: var(--padding-base);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+}
+
+
+li.high {
+    border-left: 5px solid red;
+}
+
+li.medium {
+    border-left: 5px solid orange;
+}
+
+li.low {
+    border-left: 5px solid green;
+}
+
+
+#task-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--padding-small);
+}
+
+#task-tags label {
+    display: flex;
+    align-items: center;
+    gap: var(--padding-small);
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--padding-small);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#task-tags input[type="checkbox"] {
+    margin-right: var(--padding-small);
+}
+
+#task-tags label:hover {
+    background: var(--border-color);
+}
+
+
+/* 表单中的下拉菜单和复选框样式 */
+.form-group select,
+.form-group input[type="checkbox"] {
+    padding: var(--padding-base);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+    margin-bottom: var(--padding-base);
+}
+
+.form-group label input[type="checkbox"] {
+    margin-right: var(--padding-small);
+}
+
+
+
+
+/* 筛选器样式 */
+#task-filters select,
+#task-filters input[type="checkbox"] {
+    padding: var(--padding-base);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+    margin-right: var(--padding-base);
+}
+
+#task-filters label {
+    display: flex;
+    align-items: center;
+    margin-right: var(--padding-base);
+}
+
+#task-filters label input[type="checkbox"] {
+    margin-right: var(--padding-small);
+}
+

@@ -1,0 +1,43 @@
+/* filters.css */
+/* 筛选器样式 */
+#task-filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--padding-base);
+}
+
+#search-input {
+    width: 59%;
+    padding: var(--padding-base);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+}
+
+#status-filter {
+    width: 40%;
+    padding: var(--padding-base);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+}
+
+#task-filters select,
+#task-filters input[type="checkbox"] {
+    padding: var(--padding-base);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+    margin-right: var(--padding-base);
+}
+
+#task-filters label {
+    display: flex;
+    align-items: center;
+    margin-right: var(--padding-base);
+}
+
+#task-filters label input[type="checkbox"] {
+    margin-right: var(--padding-small);
+}

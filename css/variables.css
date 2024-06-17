@@ -1,0 +1,21 @@
+/* variables.css */
+/* 定义CSS变量 */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #0056b3;
+    --background-color: #f8f9fa;
+    --text-color: #343a40;
+    --white-color: #fff;
+    --border-color: #dee2e6;
+    --font-family: 'Arial', sans-serif;
+    --font-size-base: 16px;
+    --font-size-large: 2em;
+    --font-size-medium: 1.5em;
+    --font-size-small: 0.875em;
+    --padding-base: 10px;
+    --padding-large: 20px;
+    --padding-small: 5px;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --error-color: #dc3545;
+}

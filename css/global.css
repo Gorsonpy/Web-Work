@@ -1,0 +1,32 @@
+/* global.css */
+/* 页面基本样式 */
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: var(--font-size-base);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 头部样式 */
+header {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: var(--padding-large) 0;
+    text-align: center;
+    margin-bottom: var(--padding-large);
+}
+
+header h1 {
+    font-size: var(--font-size-large);
+    margin: 0;
+}
+
+section h2 {
+    margin-bottom: var(--padding-base);
+    font-size: var(--font-size-medium);
+    color: var(--primary-color);
+}
