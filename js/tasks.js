@@ -27,6 +27,10 @@ export function loadTasks(filter = '', status = 'all', categoryFilter = '', tagF
                     <small>截止日期: ${task.deadline}</small>
                     <small>分类: ${task.category}</small>
                     <small>标签: ${tags.join(', ')}</small>
+                    <div class="progress-container">
+                        <label>进度: <span class="progress-value">${task.progress}%</span></label>
+                        <input type="range" min="0" max="100" value="${task.progress}" class="task-progress" data-index="${index}">
+                    </div>
                 </div>
                 <div class="actions">
                     <button class="toggle-status" data-index="${index}"><i class="fas ${task.completed ? 'fa-undo' : 'fa-check'}"></i></button>
@@ -34,7 +38,6 @@ export function loadTasks(filter = '', status = 'all', categoryFilter = '', tagF
                     <button class="delete" data-index="${index}"><i class="fas fa-trash-alt"></i></button>
                 </div>
             `;
-            
             taskList.appendChild(taskItem);
         });
 

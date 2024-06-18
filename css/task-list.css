@@ -103,4 +103,19 @@ li.dragging {
     border: 2px dashed var(--primary-color);
 }
 
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: var(--padding-small);
+}
+
+.progress-container label {
+    flex: 1;
+}
+
+.progress-container input[type="range"] {
+    flex: 2;
+}
+
+
 

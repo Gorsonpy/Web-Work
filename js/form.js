@@ -53,6 +53,7 @@ export function handleFormSubmit(event, taskForm, taskTitleInput, taskDescInput,
         const priority = taskPriorityInput.value;
         const category = taskCategoryInput.value.trim();
         const tags = Array.from(document.querySelectorAll('input[name="task-tags"]:checked')).map(tag => tag.value);
+        const progress = document.getElementById('task-progress').value; // 获取进度值
 
         const task = {
             title,
@@ -62,7 +63,8 @@ export function handleFormSubmit(event, taskForm, taskTitleInput, taskDescInput,
             category,
             tags,
             completed: false,
-            notified: false
+            notified: false,
+            progress: progress // 设置进度值
         };
 
         const editingIndex = taskForm.dataset.editingIndex;
@@ -79,6 +81,7 @@ export function handleFormSubmit(event, taskForm, taskTitleInput, taskDescInput,
         saveTasks();
         loadTasks('', 'all', '', '', taskList, initDragAndDrop);
         taskForm.reset();
+        document.querySelector('.progress-value').textContent = '0%'; // 重置进度显示
     }
 }
 
@@ -108,6 +111,8 @@ export function handleEditTask(index, taskTitleInput, taskDescInput, taskDeadlin
     taskDeadlineInput.value = task.deadline;
     taskPriorityInput.value = task.priority;
     taskCategoryInput.value = task.category;
+    document.getElementById('task-progress').value = task.progress; // 设置进度值
+    document.querySelector('.progress-value').textContent = `${task.progress}%`; // 更新进度显示
 
     // 回填标签
     document.querySelectorAll('input[name="task-tags"]').forEach(tag => {

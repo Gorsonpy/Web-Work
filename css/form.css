@@ -103,3 +103,33 @@ button:hover {
 #task-tags label:hover {
     background: var(--border-color);
 }
+
+.form-group {
+    margin-bottom: var(--padding-base);
+    position: relative;
+}
+
+/* form.css */
+.form-group {
+    margin-bottom: var(--padding-base);
+    position: relative;
+}
+
+label {
+    margin-bottom: var(--padding-small);
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+input[type="range"] {
+    width: 100%;
+}
+
+small.progress-value {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
