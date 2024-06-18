@@ -1,10 +1,9 @@
-// tasks.js
-
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
 export function loadTasks(filter = '', status = 'all', categoryFilter = '', tagFilter = '', taskList, initDragAndDrop) {
+    if (!taskList) return; // 确保taskList存在
     taskList.innerHTML = '';
-    const now = new Date();
+    tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     tasks = tasks.filter(task => task !== null && task !== undefined); // 过滤掉无效任务
     tasks
         .filter(task => task.title.includes(filter) && (categoryFilter === '' || task.category.includes(categoryFilter)) && (tagFilter === '' || task.tags.includes(tagFilter)))
@@ -16,9 +15,9 @@ export function loadTasks(filter = '', status = 'all', categoryFilter = '', tagF
         .forEach((task, index) => {
             const taskItem = document.createElement('li');
             taskItem.className = `${task.completed ? 'completed' : ''} ${task.priority}`;
-            taskItem.draggable = true; // 使任务项可拖动
-            taskItem.dataset.index = index; // 保存任务索引
-            
+            taskItem.draggable = true;
+            taskItem.dataset.index = index;
+
             const tags = task.tags ? task.tags : [];
 
             taskItem.innerHTML = `
@@ -39,7 +38,9 @@ export function loadTasks(filter = '', status = 'all', categoryFilter = '', tagF
             taskList.appendChild(taskItem);
         });
 
-    initDragAndDrop(); // 初始化拖拽排序功能
+    if (typeof initDragAndDrop === 'function') {
+        initDragAndDrop(taskList, loadTasks);
+    }
 }
 
 export function saveTasks() {
