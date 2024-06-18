@@ -21,6 +21,20 @@ import { initDragAndDrop } from './dragAndDrop.js';
     const statusFilter = document.getElementById('status-filter');
     const categoryFilter = document.getElementById('category-filter');
     const tagFilter = document.getElementById('tag-filter');
+    const taskDetailsModal = document.getElementById('task-details-modal');
+    const modalContent = document.querySelector('.modal-content');
+    const closeModal = document.querySelector('.close');
+    const taskDetailsTitle = document.getElementById('task-details-title');
+    const taskDetailsDescription = document.getElementById('task-details-description');
+    const taskDetailsDeadline = document.getElementById('task-details-deadline');
+    const taskDetailsCategory = document.getElementById('task-details-category');
+    const taskDetailsTags = document.getElementById('task-details-tags');
+    const commentsList = document.getElementById('comments-list');
+    const newCommentInput = document.getElementById('new-comment');
+    const addCommentButton = document.getElementById('add-comment');
+    const attachmentsList = document.getElementById('attachments-list');
+    const newAttachmentInput = document.getElementById('new-attachment');
+    const addAttachmentButton = document.getElementById('add-attachment');
 
     // 请求通知权限
     requestNotificationPermission();
@@ -38,13 +52,15 @@ import { initDragAndDrop } from './dragAndDrop.js';
         const target = event.target.closest('button');
         if (!target) return;
         const index = target.dataset.index;
-        
+
         if (target.classList.contains('edit')) {
             handleEditTask(index, taskTitleInput, taskDescInput, taskDeadlineInput, taskPriorityInput, taskCategoryInput, taskForm);
         } else if (target.classList.contains('delete')) {
             handleDeleteTask(index, taskList, () => initDragAndDrop(taskList, loadTasks));
         } else if (target.classList.contains('toggle-status')) {
             handleToggleStatus(index, taskList, () => initDragAndDrop(taskList, loadTasks));
+        } else if (target.classList.contains('view-details')) {
+            viewTaskDetails(index);
         }
     });
 
@@ -89,6 +105,66 @@ import { initDragAndDrop } from './dragAndDrop.js';
             }
         });
     }
+
+    // 查看任务详情
+    function viewTaskDetails(index) {
+        const tasks = getTasks();
+        const task = tasks[index];
+
+        // 确保comments和attachments已定义
+        task.comments = task.comments || [];
+        task.attachments = task.attachments || [];
+
+        // 将任务索引存储在modal中以便后续使用
+        taskDetailsTitle.dataset.index = index;
+
+        taskDetailsTitle.textContent = task.title;
+        taskDetailsDescription.textContent = task.description;
+        taskDetailsDeadline.textContent = `截止日期: ${task.deadline}`;
+        taskDetailsCategory.textContent = `分类: ${task.category}`;
+        taskDetailsTags.textContent = `标签: ${task.tags.join(', ')}`;
+        commentsList.innerHTML = task.comments.map(comment => `<p>${comment}</p>`).join('');
+        attachmentsList.innerHTML = task.attachments.map(file => `<a href="${file.url}" target="_blank">${file.name}</a>`).join('<br>');
+        taskDetailsModal.style.display = 'block';
+    }
+
+    // 关闭任务详情模态框
+    closeModal.onclick = function() {
+        taskDetailsModal.style.display = 'none';
+    };
+
+    // 添加评论
+    addCommentButton.onclick = function() {
+        const tasks = getTasks();
+        const index = taskDetailsTitle.dataset.index;
+        const task = tasks[index];
+        const newComment = newCommentInput.value.trim();
+        if (newComment) {
+            task.comments.push(newComment);
+            setTasks(tasks);
+            saveTasks();
+            viewTaskDetails(index); // 重新加载详情页面
+            newCommentInput.value = '';
+        }
+    };
+
+    // 添加附件
+    addAttachmentButton.onclick = function() {
+        const tasks = getTasks();
+        const index = taskDetailsTitle.dataset.index;
+        const task = tasks[index];
+        const newAttachments = Array.from(newAttachmentInput.files).map(file => {
+            return {
+                name: file.name,
+                url: URL.createObjectURL(file)
+            };
+        });
+        task.attachments.push(...newAttachments);
+        setTasks(tasks);
+        saveTasks();
+        viewTaskDetails(index); // 重新加载详情页面
+        newAttachmentInput.value = '';
+    };
 
     // 定时检查任务
     setInterval(() => {

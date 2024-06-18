@@ -48,6 +48,7 @@ export function loadTasks(filter = '', status = 'all', categoryFilter = '', tagF
                     <button class="toggle-status" data-index="${index}"><i class="fas ${task.completed ? 'fa-undo' : 'fa-check'}"></i></button>
                     <button class="edit" data-index="${index}"><i class="fas fa-edit"></i></button>
                     <button class="delete" data-index="${index}"><i class="fas fa-trash-alt"></i></button>
+                    <button class="view-details" data-index="${index}" style="background-color: #17a2b8; color: white;"><i class="fas fa-info-circle"></i></button>
                 </div>
             `;
             taskList.appendChild(taskItem);

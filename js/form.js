@@ -54,6 +54,14 @@ export function handleFormSubmit(event, taskForm, taskTitleInput, taskDescInput,
         const category = taskCategoryInput.value.trim();
         const tags = Array.from(document.querySelectorAll('input[name="task-tags"]:checked')).map(tag => tag.value);
         const progress = document.getElementById('task-progress').value; // 获取进度值
+        const comments = document.getElementById('task-comments').value.trim().split('\n'); // 获取评论
+        const attachmentsInput = document.getElementById('task-attachments');
+        const attachments = Array.from(attachmentsInput.files).map(file => {
+            return {
+                name: file.name,
+                url: URL.createObjectURL(file)
+            };
+        });
 
         const task = {
             title,
@@ -64,7 +72,9 @@ export function handleFormSubmit(event, taskForm, taskTitleInput, taskDescInput,
             tags,
             completed: false,
             notified: false,
-            progress: progress // 设置进度值
+            progress: progress, // 设置进度值
+            comments: comments, // 设置评论
+            attachments: attachments // 设置附件
         };
 
         const editingIndex = taskForm.dataset.editingIndex;
@@ -113,6 +123,7 @@ export function handleEditTask(index, taskTitleInput, taskDescInput, taskDeadlin
     taskCategoryInput.value = task.category;
     document.getElementById('task-progress').value = task.progress; // 设置进度值
     document.querySelector('.progress-value').textContent = `${task.progress}%`; // 更新进度显示
+    document.getElementById('task-comments').value = task.comments.join('\n'); // 设置评论
 
     // 回填标签
     document.querySelectorAll('input[name="task-tags"]').forEach(tag => {
