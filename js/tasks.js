@@ -5,6 +5,8 @@ export function loadTasks(filter = '', status = 'all', categoryFilter = '', tagF
     taskList.innerHTML = '';
     tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     tasks = tasks.filter(task => task !== null && task !== undefined); // 过滤掉无效任务
+    const now = new Date();
+
     tasks
         .filter(task => task.title.includes(filter) && (categoryFilter === '' || task.category.includes(categoryFilter)) && (tagFilter === '' || task.tags.includes(tagFilter)))
         .filter(task => {
@@ -19,6 +21,16 @@ export function loadTasks(filter = '', status = 'all', categoryFilter = '', tagF
             taskItem.dataset.index = index;
 
             const tags = task.tags ? task.tags : [];
+            
+            // 检查任务是否即将到期并发送通知
+            const taskDeadline = new Date(task.deadline);
+            const timeDiff = taskDeadline - now;
+            const oneDay = 24 * 60 * 60 * 1000;
+            if (timeDiff <= oneDay && timeDiff > 0 && !task.notified) {
+                sendNotification(task.title, task.description, taskDeadline);
+                task.notified = true;
+                saveTasks();
+            }
 
             taskItem.innerHTML = `
                 <div>
@@ -63,4 +75,14 @@ export function getTasks() {
 
 export function setTasks(newTasks) {
     tasks = newTasks;
+}
+
+// 发送通知
+function sendNotification(title, description, deadline) {
+    if (Notification.permission === 'granted') {
+        new Notification('任务提醒', {
+            body: `任务"${title}"即将到期！\n描述: ${description}\n截止日期: ${deadline}`,
+            icon: 'icon.png' // 可以替换为您的图标路径
+        });
+    }
 }

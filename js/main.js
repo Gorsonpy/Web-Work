@@ -89,4 +89,9 @@ import { initDragAndDrop } from './dragAndDrop.js';
             }
         });
     }
+
+    // 定时检查任务
+    setInterval(() => {
+        loadTasks('', 'all', '', '', taskList, () => initDragAndDrop(taskList, loadTasks));
+    }, 60 * 60 * 1000); // 每小时检查一次
 })();
