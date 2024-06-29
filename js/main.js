@@ -1,12 +1,10 @@
-// main.js
-
 import { requestNotificationPermission } from './notifications.js';
 import { loadTasks, saveTasks, getTasks, setTasks } from './tasks.js';
 import { validateForm, handleFormSubmit, handleEditTask, handleDeleteTask, handleToggleStatus } from './form.js';
 import { handleSearchInput, handleStatusFilterChange, handleCategoryFilterChange, handleTagFilterChange } from './filters.js';
 import { initDragAndDrop } from './dragAndDrop.js';
 import { exportTasks, importTasks } from './importExport.js';
-
+import { toggleDarkMode, loadDarkModePreference } from './darkMode.js';
 
 (function () {
     // 获取DOM元素
@@ -39,13 +37,17 @@ import { exportTasks, importTasks } from './importExport.js';
     const addAttachmentButton = document.getElementById('add-attachment');
     const exportButton = document.getElementById('export-tasks');
     const importInput = document.getElementById('import-tasks');
-
+    const importTasksButton = document.getElementById('import-tasks-button');
+    const toggleDarkModeButton = document.getElementById('toggle-dark-mode'); 
 
     // 请求通知权限
     requestNotificationPermission();
 
     // 初始加载任务
     loadTasks('', 'all', '', '', taskList, () => initDragAndDrop(taskList, loadTasks));
+
+    // 加载夜间模式偏好设置
+    loadDarkModePreference(); 
 
     // 表单提交事件
     taskForm.addEventListener('submit', (event) => handleFormSubmit(
@@ -54,16 +56,22 @@ import { exportTasks, importTasks } from './importExport.js';
     // 导出任务
     exportButton.addEventListener('click', exportTasks); 
 
+    // 导入任务按钮点击事件
+    importTasksButton.addEventListener('click', () => {
+        importInput.click();
+    });
+
     // 导入任务
-    importInput.addEventListener('change', function(event) { // 添加的部分
+    importInput.addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file) {
             importTasks(file, taskList);
             importInput.value = ''; // 重置文件输入，以便可以重复导入相同文件
         }
-    }); // 添加的部分
+    }); 
 
-
+    // 切换夜间模式
+    toggleDarkModeButton.addEventListener('click', toggleDarkMode);
 
     // 事件代理
     taskList.addEventListener('click', function(event) {

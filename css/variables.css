@@ -1,5 +1,6 @@
 /* variables.css */
-/* 定义CSS变量 */
+
+/* 日间模式 */
 :root {
     --primary-color: #007bff;
     --secondary-color: #0056b3;
@@ -18,4 +19,18 @@
     --border-radius: 8px;
     --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --error-color: #dc3545;
+}
+
+/* 夜间模式 */
+body.dark-mode {
+    --primary-color: #1a73e8;
+    --secondary-color: #0049c1;
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --white-color: #1e1e1e;
+    --border-color: #333;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    --header-background-color: #333333;
+    --button-background-color: #444444;
+    --button-text-color: #ffffff;
 }
