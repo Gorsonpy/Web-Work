@@ -1,4 +1,21 @@
+// tasks.js
+
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+// 分类和标签的中英文对照表
+const categoryMap = {
+    work: '工作',
+    personal: '个人',
+    shopping: '购物',
+    other: '其他'
+};
+
+const tagMap = {
+    home: '家庭',
+    health: '健康',
+    study: '学习',
+    entertainment: '娱乐'
+};
 
 export function loadTasks(filter = '', status = 'all', categoryFilter = '', tagFilter = '', taskList, initDragAndDrop) {
     if (!taskList) return; // 确保taskList存在
@@ -32,13 +49,16 @@ export function loadTasks(filter = '', status = 'all', categoryFilter = '', tagF
                 saveTasks();
             }
 
+            const categoryChinese = categoryMap[task.category] || task.category;
+            const tagsChinese = tags.map(tag => tagMap[tag] || tag).join(', ');
+
             taskItem.innerHTML = `
                 <div>
                     <strong>${task.title}</strong>
                     <p>${task.description}</p>
                     <small>截止日期: ${task.deadline}</small>
-                    <small>分类: ${task.category}</small>
-                    <small>标签: ${tags.join(', ')}</small>
+                    <small>分类: ${categoryChinese}</small>
+                    <small>标签: ${tagsChinese}</small>
                     <div class="progress-container">
                         <label>进度: <span class="progress-value">${task.progress}%</span></label>
                         <input type="range" min="0" max="100" value="${task.progress}" class="task-progress" data-index="${index}">
