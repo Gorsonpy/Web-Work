@@ -60,3 +60,20 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+/* main.css */
+.import-export-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.import-label {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: var(--padding-base);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    display: inline-block;
+}

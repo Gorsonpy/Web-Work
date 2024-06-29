@@ -129,7 +129,12 @@
                     <option value="completed">已完成</option>
                     <option value="incomplete">未完成</option>
                 </select>
-            </div>            
+            </div>         
+            <div class="import-export-buttons">
+                <button id="export-tasks">导出任务</button>
+                <input type="file" id="import-tasks" style="display: none;">
+                <label for="import-tasks" class="import-label">导入任务</label>
+            </div>   
             <ul id="task-list", draggable="true">
                 <!-- 任务列表项将在这里动态生成 -->
             </ul>

@@ -5,6 +5,8 @@ import { loadTasks, saveTasks, getTasks, setTasks } from './tasks.js';
 import { validateForm, handleFormSubmit, handleEditTask, handleDeleteTask, handleToggleStatus } from './form.js';
 import { handleSearchInput, handleStatusFilterChange, handleCategoryFilterChange, handleTagFilterChange } from './filters.js';
 import { initDragAndDrop } from './dragAndDrop.js';
+import { exportTasks, importTasks } from './importExport.js';
+
 
 (function () {
     // 获取DOM元素
@@ -35,6 +37,9 @@ import { initDragAndDrop } from './dragAndDrop.js';
     const attachmentsList = document.getElementById('attachments-list');
     const newAttachmentInput = document.getElementById('new-attachment');
     const addAttachmentButton = document.getElementById('add-attachment');
+    const exportButton = document.getElementById('export-tasks');
+    const importInput = document.getElementById('import-tasks');
+
 
     // 请求通知权限
     requestNotificationPermission();
@@ -46,6 +51,19 @@ import { initDragAndDrop } from './dragAndDrop.js';
     taskForm.addEventListener('submit', (event) => handleFormSubmit(
         event, taskForm, taskTitleInput, taskDescInput, taskDeadlineInput, taskPriorityInput, taskCategoryInput, taskList, () => initDragAndDrop(taskList, loadTasks)
     ));
+    // 导出任务
+    exportButton.addEventListener('click', exportTasks); 
+
+    // 导入任务
+    importInput.addEventListener('change', function(event) { // 添加的部分
+        const file = event.target.files[0];
+        if (file) {
+            importTasks(file, taskList);
+            importInput.value = ''; // 重置文件输入，以便可以重复导入相同文件
+        }
+    }); // 添加的部分
+
+
 
     // 事件代理
     taskList.addEventListener('click', function(event) {
