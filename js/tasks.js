@@ -1,4 +1,4 @@
-// tasks.js
+import { addTaskAnimation, removeTaskAnimation, updateTaskAnimation } from './animations.js';
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
@@ -71,6 +71,10 @@ export function loadTasks(filter = '', status = 'all', categoryFilter = '', tagF
                     <button class="view-details" data-index="${index}" style="background-color: #17a2b8; color: white;"><i class="fas fa-info-circle"></i></button>
                 </div>
             `;
+
+            // 添加任务动画
+            addTaskAnimation(taskItem);
+
             taskList.appendChild(taskItem);
         });
 
@@ -96,6 +100,16 @@ export function getTasks() {
 
 export function setTasks(newTasks) {
     tasks = newTasks;
+}
+
+// 删除任务
+export function deleteTask(index) {
+    const taskItem = document.querySelector(`[data-index="${index}"]`);
+    removeTaskAnimation(taskItem, () => {
+        tasks.splice(index, 1);
+        saveTasks();
+        loadTasks();
+    });
 }
 
 // 发送通知

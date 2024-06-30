@@ -1,12 +1,18 @@
 import { requestNotificationPermission } from './notifications.js';
 import { loadTasks, saveTasks, getTasks, setTasks } from './tasks.js';
+import { addTaskAnimation, removeTaskAnimation, updateTaskAnimation } from './animations.js';
 import { validateForm, handleFormSubmit, handleEditTask, handleDeleteTask, handleToggleStatus } from './form.js';
 import { handleSearchInput, handleStatusFilterChange, handleCategoryFilterChange, handleTagFilterChange } from './filters.js';
 import { initDragAndDrop } from './dragAndDrop.js';
 import { exportTasks, importTasks } from './importExport.js';
 import { toggleDarkMode, loadDarkModePreference } from './darkMode.js';
+import { initLanguageSwitch } from './langSwitch.js';
+
 
 (function () {
+    // 初始化语言切换功能
+    initLanguageSwitch();
+
     // 获取DOM元素
     const taskForm = document.getElementById('task-form');
     const taskTitleInput = document.getElementById('task-title');
@@ -40,6 +46,17 @@ import { toggleDarkMode, loadDarkModePreference } from './darkMode.js';
     const importTasksButton = document.getElementById('import-tasks-button');
     const toggleDarkModeButton = document.getElementById('toggle-dark-mode'); 
 
+    // 确保这些元素在页面中存在
+    if (!exportButton) {
+        console.error("Element with ID 'export-tasks' not found");
+    }
+    if (!importTasksButton) {
+        console.error("Element with ID 'import-tasks-button' not found");
+    }
+    if (!toggleDarkModeButton) {
+        console.error("Element with ID 'toggle-dark-mode' not found");
+    }
+    
     // 请求通知权限
     requestNotificationPermission();
 

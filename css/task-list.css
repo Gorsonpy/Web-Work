@@ -5,8 +5,7 @@ ul {
     padding: 0;
 }
 
-/* task-list.css */
-/* 任务列表样式 */
+/* 任务列表项样式 */
 li {
     background-color: var(--white-color);
     margin-bottom: var(--padding-base);
@@ -17,14 +16,13 @@ li {
     justify-content: space-between;
     align-items: center;
     box-shadow: var(--box-shadow);
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
     gap: var(--padding-base); /* 添加元素间的间距 */
 }
 
 li:hover {
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* 添加hover时的阴影效果 */
 }
-
 
 li.completed {
     text-decoration: line-through;
@@ -117,5 +115,41 @@ li.dragging {
     flex: 2;
 }
 
+/* 添加淡入效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
+/* 添加淡出效果 */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
 
+/* 添加和删除任务项的过渡效果 */
+li.adding {
+    animation: fadeIn 0.3s forwards;
+}
+
+li.removing {
+    animation: fadeOut 0.3s forwards;
+}
+
+/* 更新任务项的过渡效果 */
+li.updating {
+    transition: background-color 0.3s ease;
+    background-color: var(--secondary-color);
+}

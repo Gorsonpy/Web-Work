@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人任务管理系统</title>
-
+    <title id="page-title">个人任务管理系统</title>
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/global.css">
@@ -16,15 +15,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- 在header内添加夜间模式切换按钮 -->
     <header>
-        <h1>个人任务管理系统</h1>
+        <h1 id="title">个人任务管理系统</h1>
         <h3>102101141高孙炜</h3>
         <button id="toggle-dark-mode">切换夜间模式</button>
+        <select id="language-switch">
+            <option value="zh">中文</option>
+            <option value="en">English</option>
+        </select>
     </header>
     <main>
         <section id="task-form-section">
-            <h2>添加/编辑任务</h2>
+            <h2 id="add-task">添加任务</h2>
             <form id="task-form">
                 <div class="form-group">
                     <label for="task-title">任务标题：</label>
@@ -61,7 +63,6 @@
                     </div>
                     <small class="error-message"></small>
                 </div>
-                
                 <div class="form-group">
                     <label for="task-priority">优先级：</label>
                     <select id="task-priority" name="task-priority" required>
@@ -80,35 +81,12 @@
                     <textarea id="task-comments" name="task-comments"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="task-attachments">附件：</label>
+                    <label for="task-attachments" id="file-label">Attachments:</label>
                     <input type="file" id="task-attachments" name="task-attachments" multiple>
-                </div>                             
-                <button type="submit">保存任务</button>
+                </div>                                                        
+                <button type="submit" id="save-task">保存任务</button>
             </form>
         </section>
-        <div id="task-details-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2 id="task-details-title">任务详情</h2>
-                <p id="task-details-description"></p>
-                <small id="task-details-deadline"></small>
-                <small id="task-details-category"></small>
-                <small id="task-details-tags"></small>
-                <div id="task-details-comments">
-                    <h4>评论</h4>
-                    <div id="comments-list"></div>
-                    <textarea id="new-comment" placeholder="添加评论"></textarea>
-                    <button id="add-comment">添加评论</button>
-                </div>
-                <div id="task-details-attachments">
-                    <h4>附件</h4>
-                    <div id="attachments-list"></div>
-                    <input type="file" id="new-attachment" multiple>
-                    <button id="add-attachment">添加附件</button>
-                </div>
-            </div>
-        </div>
-        
         <section id="task-list-section">
             <h2>任务列表</h2>
             <div id="task-filters">
@@ -138,12 +116,27 @@
                 <button id="import-tasks-button">导入任务</button>
                 <input type="file" id="import-tasks" style="display: none;">
             </div>   
-            <ul id="task-list", draggable="true">
+            <ul id="task-list" draggable="true">
                 <!-- 任务列表项将在这里动态生成 -->
             </ul>
+            <div id="task-details-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2 id="task-details-title"></h2>
+                    <p id="task-details-description"></p>
+                    <p id="task-details-deadline"></p>
+                    <p id="task-details-category"></p>
+                    <p id="task-details-tags"></p>
+                    <div id="comments-list"></div>
+                    <input type="text" id="new-comment" placeholder="添加评论">
+                    <button id="add-comment">添加</button>
+                    <div id="attachments-list"></div>
+                    <input type="file" id="new-attachment">
+                    <button id="add-attachment">添加附件</button>
+                </div>
+            </div>
+            
         </section>
-        
-        
     </main>
     <script type="module" src="/js/main.js"></script>
 </body>
